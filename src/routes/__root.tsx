@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteFooter, SiteHeader } from "../components/site-chrome";
+import { StoreProvider } from "../lib/store";
 
 function NotFoundComponent() {
   return (
@@ -81,21 +83,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "BorderlessWork Hub" },
+      {
+        name: "description",
+        content: "Legal and financial access for displaced talent: work compliance, payouts, invoices and rights.",
+      },
+      { name: "author", content: "BorderlessWork Hub" },
+      { property: "og:title", content: "BorderlessWork Hub" },
+      {
+        property: "og:description",
+        content: "Legal and financial access for displaced talent: work compliance, payouts, invoices and rights.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -124,7 +137,15 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <StoreProvider>
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">
+            <Outlet />
+          </main>
+          <SiteFooter />
+        </div>
+      </StoreProvider>
     </QueryClientProvider>
   );
 }

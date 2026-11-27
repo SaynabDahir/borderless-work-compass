@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- All user-facing wording lives in `src/i18n/<lang>.ts`, typed by `Dict` from `en.ts`; add a key to every language file. Why: the language switcher must cover every label and checklist.
+- Rules content (steps, alerts, guidance, payout routes) is referenced by id from `src/lib/rules.ts`; text for an id lives only in the dictionaries. Why: one rule set, four languages.
+- Scoring and invoice maths stay pure in `src/lib/rules.ts` and `src/lib/invoice.ts`, tested in `src/test/rules.test.ts`. Why: scores and totals must be checkable without the UI.
+- Case state (active case, saved cases, language) goes through `useStore` in `src/lib/store.tsx`, which reads device storage only after hydration. Why: avoids server/client render mismatches.
+- Styling uses the tokens and `@utility` classes (`card`, `btn*`, `field`, `navy-panel`) in `src/styles.css`. Why: keeps the navy/teal look consistent.
